@@ -138,7 +138,7 @@ exports.getBirthdayUsers = async (req, res, next) => {
 
 exports.sendLoginCredential = async (req, res, next) => {
   try {
-    let schedule = 1687265733;
+    let schedule = 0;
     if (req.body.hasOwnProperty("_scheduler")) {
       console.log(req.body._scheduler);
       let ms = new Date().getMilliseconds();
