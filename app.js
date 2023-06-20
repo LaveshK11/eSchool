@@ -371,6 +371,7 @@ app.use("/api/v1/routePickupPoint/", routePickupPoint);
 app.use("/api/v1/noticeBoard", notice);
 app.use("/api/v1/emailSmsTemplate", emailSmsTemplate);
 app.use("/api/v1/sendMail", sendMail);
+// app.use('/api/v1/Email/',)
 
 app.use("/api/v1/report", report);
 
