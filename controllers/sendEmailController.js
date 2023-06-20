@@ -131,11 +131,6 @@ exports.getBirthdayUsers = async (req, res, next) => {
 
 exports.sendLoginCredential = async (req, res, next) => {
   try {
-<<<<<<< HEAD
-    let schedule = 0;
-    if (req.body.hasOwnProperty("_scheduler")) {
-      let ms = Date.now();
-=======
     const dateString = req.body.ScheduleDate
     const dateParts = dateString.split("-");
     const year = parseInt(dateParts[0]);
@@ -146,7 +141,6 @@ exports.sendLoginCredential = async (req, res, next) => {
     if (req.body.hasOwnProperty("ScheduleDate")) {
       console.log(req.body._scheduler);
       let ms = new Date().getMilliseconds();
->>>>>>> master
       schedule = req.body._scheduler - ms;
     }
 
@@ -197,15 +191,9 @@ exports.sendLoginCredential = async (req, res, next) => {
         where: { user_id: st.getDataValue("id") },
       });
 
-<<<<<<< HEAD
-      if (emails.length > 0 && user)
-        setTimeout(
-          await smtpClient({
-=======
       if (emails.length > 0) {
         setTimeout(async () => {
           sendCredentialsMail({
->>>>>>> master
             email: emails,
             subject: "Login Credentials",
             message: `Here are your login credentials email ${emails[0]} and password is :gggg`,

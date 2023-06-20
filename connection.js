@@ -4,12 +4,16 @@ const { Sequelize, DataTypes } = require("sequelize");
 //     dialect:"mysql"
 // })
 
-const sequelize  = new Sequelize(process.env.DATABASE,process.env.USER_NAME, process.env.PASSWORD,{
-    host:process.env.HOST,
-    port:process.env.DATABASE_PORT,
-    dialect:"mysql",
-    logging:false,
-    alter:true,
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.USER_NAME,
+  process.env.PASSWORD,
+  {
+    host: process.env.HOST,
+    port: process.env.DATABASE_PORT,
+    dialect: "mysql",
+    logging: false,
+    alter: true,
 
     retry: {
       match: [/Deadlock/i],
@@ -20,11 +24,4 @@ const sequelize  = new Sequelize(process.env.DATABASE,process.env.USER_NAME, pro
   }
 );
 
-<<<<<<< HEAD
-
-
-
-module.exports = {sequelize , DataTypes,Sequelize};
-=======
 module.exports = { sequelize, DataTypes, Sequelize };
->>>>>>> master
