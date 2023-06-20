@@ -11,18 +11,14 @@ exports.carryFee = async (req, res) => {
     var PreviousDate = new Date(year, 1, 1);
     console.log(class_);
 
-    const feeGroupData = (await FeeGroup.findOrCreate(
-      {
-        where: { name: "Previous Year due", class: class_ },
-        defaults: {
-            name: "Previous Year due", class: class_,
-          description: `Added dues for year ${Number(year - 1)} ${Number(
-            year
-          )}`,
-        },
-      }
-    )).toJSOn();
-
+    const feeGroupData = await FeeGroup.findOrCreate({
+      where: { name: "Previous Year due", class: class_ },
+      defaults: {
+        name: "Previous Year due",
+        class: class_,
+        description: `Added dues for year ${Number(year - 1)} ${Number(year)}`,
+      },
+    });
     const feeMasterData = await feeMaster.create(
       {
         amount: Number(balance),
@@ -43,7 +39,7 @@ exports.carryFee = async (req, res) => {
       student_id: student_id,
     });
     return res
-      .status(400)
+      .status(200)
       .send({ status: "success", message: "Student fee added successfully " });
   } catch (error) {
     console.log(error);

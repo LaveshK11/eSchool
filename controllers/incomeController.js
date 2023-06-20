@@ -1,88 +1,85 @@
-const Income = require('../models/Income')
-const ApiFactory = require('../utils/apiFactory')
-const IncomeHead = require('../models/IncomeHead')
-const multer = require('multer')
-const path = require('path')
+const Income = require("../models/Income");
+const ApiFactory = require("../utils/apiFactory");
+const IncomeHead = require("../models/IncomeHead");
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
-  destination:function(req,file,cb){
-      cb(null, `${__dirname}/../public/incomeDocuments` )
+  destination: function (req, file, cb) {
+    cb(null, `${__dirname}/../public/incomeDocuments`);
   },
-  filename:function(req,file,cb){
-   cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname))
-  }
-})
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
 
+const upload = multer({ storage }).single("documents");
 
-
-const upload = multer({storage}).single('documents')
-
-
-
-exports.getAllIncome = async(req,res,next)=>{
-
+exports.getAllIncome = async (req, res, next) => {
   try {
-    
     let data = await Income.findAll({
-      include:{
-        model:IncomeHead,
-        attributes:['income_category']
-      }
-    })
+      include: {
+        model: IncomeHead,
+        attributes: ["income_category"],
+      },
+    });
 
     res.status(200).json({
-      status:'success',
-      data
-    })
-
+      status: "success",
+      data,
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
+};
 
-
-}
-
-exports.createIncome = async(req,res,next)=>{
-
+exports.createIncome = async (req, res, next) => {
   try {
-    
-    upload(req,res,async(err)=>{
-
-      if(err){
+    upload(req, res, async (err) => {
+      if (err) {
         return res.status(400).json({
-          status:'fail',
-          message:err.message
-        })
+          status: "fail",
+          message: err.message,
+        });
       }
 
-    if(req.file){
+      if (req.file) {
+        // let pathArr = req.file.path.split("\\")
 
-      // let pathArr = req.file.path.split("\\")
-         
-      // let path = pathArr.splice(pathArr.indexOf("public"),pathArr.length).join("/")
-  
-      req.body.documents = req.file.path
-      
-    }
-   
-    await Income.create(req.body)
+        // let path = pathArr.splice(pathArr.indexOf("public"),pathArr.length).join("/")
 
-    res.status(200).json({
-      status:'success',
-      message:'Income Added Successfully!'
-    })
+        req.body.documents = req.file.path;
+      }
 
+      await Income.create(req.body);
 
-    })
-
-
+      res.status(200).json({
+        status: "success",
+        message: "Income Added Successfully!",
+      });
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
+};
 
+exports.updateIncome = ApiFactory.update(Income);
 
-}
-
-exports.updateIncome = ApiFactory.update(Income)
-
-exports.deleteIncome = ApiFactory.delete(Income)
+/**
+ * @param : id
+ */
+exports.deleteIncome = async (req, res) => {
+  try {
+    let uId = req.params.id;
+    await Income.destroy({ where: { id: uId } });
+    res.status(200).json({
+      status: "success",
+      message: "Deleted successfully!",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -12,20 +12,21 @@ exports.getAll = (Model) => async (req, res, next) => {
 
 exports.create = (Model) => async (req, res, next) => {
   try {
-   const dataCreted= await Model.create(req.body);
+    const dataCreted = await Model.create(req.body);
     res.status(200).json({
       status: "success",
       message: "Created successfully!",
     });
   } catch (err) {
-    console.log(err);1
+    console.log(err);
+    1;
     next(err);
   }
 };
 
 exports.delete = (Model) => async (req, res, next) => {
   try {
-    await Model.destroy({ where: { id: reqdestroy} });
+    await Model.destroy({ where: { id: reqdestroy } });
     res.status(200).json({
       status: "success",
       message: "Deleted successfully!",

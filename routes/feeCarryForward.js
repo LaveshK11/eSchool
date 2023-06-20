@@ -1,11 +1,7 @@
-const feeCarryForward = require('../controllers/feeCarryForward')
+const feeCarryForward = require("../controllers/feeCarryForward");
 
-const router = require('express').Router()
+const router = require("express").Router();
 
+router.post("/", feeCarryForward.carryFee);
 
-router.post('/' , feeCarryForward.carryFee);
-
-
-
-
-module.exports  = router
+module.exports = router;

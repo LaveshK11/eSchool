@@ -1,4 +1,4 @@
-const Class = require("../models/Class");
+// const Class = require('../models/Class')
 // const Section = require('../models/Section')
 
 const feeCollect = require("../models/FeeCollect");
@@ -7,20 +7,6 @@ const feeMaster = require("../models/FeeMaster");
 
 // const Student = require('../models/student')
 
-exports.create = async (req, res) => {
-  try {
-    const { fee_master_id, discount_id, session_id, student_id } = req.body;
-    const userCreateData = await feeCollect.create({
-      fee_master_id,
-      discount_id,
-      session_id,
-      student_id,
-    });
-    res.send({ data: userCreateData });
-  } catch (error) {
-    console.log(error);
-  }
-};
 exports.getClassSectionStudent = async (req, res) => {
   try {
     let data = await Student.findAll({
@@ -90,7 +76,7 @@ exports.collectStudentFee = async (req, res) => {
       ];
       return acc;
     }, []);
-
+    console.log(dataDeliver);
     res.status(200).send({ data: dataDeliver });
   } catch (err) {
     console.log(err.message);
@@ -105,7 +91,7 @@ exports.status = async (req, res, next) => {
   const payment_id = req.params.payment_id;
   const feesStatusData = await feeCollect.findOne({
     where: { payment_id },
-    attributes: ["mode", "fine", "payment_id", "updatedAt"],
+    attributes: ["mode", "fine", "payment_id", "updatedAt", "status"],
     include: [
       {
         model: feeMaster,
@@ -119,41 +105,28 @@ exports.status = async (req, res, next) => {
       },
     ],
   });
-  res.send({ data: feesStatusData });
+
+  if (feesStatusData) {
+    const dataDeliver = {
+      mode: feesStatusData.mode,
+      status: feesStatusData.status,
+      payment_id: feesStatusData.payment_id,
+      amount: feesStatusData.fee_master.amount,
+      due_date: feesStatusData.fee_master.due_date,
+      fine_amount: feesStatusData.fee_master.fine_amount,
+      fine_type: feesStatusData.fee_master.fine_type,
+      name: feesStatusData.fee_master.fee_group.name,
+      description: feesStatusData.fee_master.fee_group.description,
+    };
+    let data = [];
+    data.push(dataDeliver);
+    res.send({ data: data });
+  } else {
+    res.send({ data: [] });
+  }
 };
 
-exports.updatePAyment = async (req, res, next) => {
-  try {
-    const id = req.body.id;
-    const mode = req.body.mode;
-    const paid = req.body.paid;
-    const data = (await feeCollect.findByPk(id)).toJSON();
-    const totalAmount = (
-      await feeMaster.findOne({
-        id: data.fee_master_id,
-        attributes: ["amount"],
-      })
-    ).toJSON().amount;
-    if (Number(paid) + Number(data.paid) > Number(totalAmount)) {
-      return res.status(404).send({
-        status: false,
-        message: "Requested amount is higher than which is to be paid",
-      });
-    }
-    await feeCollect.update(
-      {
-        paid: Number(data.paid) + Number(paid),
-        balance: Number(data.balance) - Number(paid),
-      },
-      { where: { id } }
-    );
-    if (Number(totalAmount) == Number(paid) + Number(data.paid)) {
-      feeCollect.update({ status: "paid", mode }, { where: { id } });
-    } else {
-      feeCollect.update({ status: "partial", mode }, { where: { id } });
-    }
-    res.send({ data: "true" });
-  } catch (error) {
-    console.log(error);
-  }
+exports.updatePAyment = (req, res, next) => {
+  const id = req.body.id;
+  const mode = req.body.mode;
 };

@@ -1,58 +1,53 @@
+const examGroupController = require("../controllers/examGroupController");
 
-const examGroupController = require('../controllers/examGroupController')
+const router = require("express").Router();
 
-const router = require('express').Router()
+router.get("/", examGroupController.getAllExamGroups);
 
-router.get('/',examGroupController.getAllExamGroups)
+router.post("/", examGroupController.createExamGroup);
 
+router.post("/exam", examGroupController.createExamGroup);
 
-router.post('/',examGroupController.createExamGroup)
+router.delete("/:id", examGroupController.deleteExamGroup);
 
-router.post('/exam',examGroupController.createExamGroup)
-
-router.delete('/:id',examGroupController.deleteExamGroup)
-
-router.patch('/:id',examGroupController.updateExamGroup)
+router.patch("/:id", examGroupController.updateExamGroup);
 
 /**
  * @body exams_id array of all exams id
  * @body exam_group_id
  */
-router.post('/examGroupExam',examGroupController.createExamGroupExams)
+router.post("/examGroupExam", examGroupController.createExamGroupExams);
 
 /**
  * @param integer exam_group_id
  * @returns list of all the exams which has exam_group_id
  */
-router.get('/exams/:id',examGroupController.getAllExams)
+router.get("/exams/:id", examGroupController.getAllExams);
 
 /**
- * @body array[] student_ids 
+ * @body array[] student_ids
  * @body integer examGroupExamId
  */
-router.post('/examStudents',examGroupController.assignExamGroupExamStudents)
+router.post("/examStudents", examGroupController.assignExamGroupExamStudents);
 
 /**
  * @body class_id
  * @body section_id
  */
-router.get('/examStudents',examGroupController.getExamGroupExamStudents)
+router.get("/examStudents", examGroupController.getExamGroupExamStudents);
 
 /**
  * @body array[] {subjects} - array of all the subjects data
  */
-router.get('/examSubjects',examGroupController.assignExamGroupExamSubjects)
-
+router.get("/examSubjects", examGroupController.assignExamGroupExamSubjects);
 
 /**
  * @body integer exam_group_exam_id
  */
-router.get('/examSubjects/:id',examGroupController.getAssignedSubjects)
+router.get("/examSubjects/:id", examGroupController.getAssignedSubjects);
 
+router.delete("/examSubjects/:id", examGroupController.unAssignExamSubjects);
 
-router.delete('/examSubjects/:id',examGroupController.unAssignExamSubjects)
+router.post("/addMarks/:id", examGroupController.uploadMarks);
 
-
-router.post('/addMarks/:id',examGroupController.uploadMarks)
-
-module.exports = router
+module.exports = router;

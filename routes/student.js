@@ -10,7 +10,6 @@ router.patch('/updateStudent/:id',studentController.updateStudent)
 router.delete('/deleteStudeent/:id',studentController.deleteStudent)
 router.delete('/deleteBulkStudents',studentController.bulkDelete)
 router.get('/disabledStudent/:class_id/:section_id',studentController.disabledStudents)
-
 router.get('/classSection/:class_id/:section_id',studentController.getClassSectionStudents)
 
 

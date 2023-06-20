@@ -388,17 +388,18 @@ exports.promoteStudents = async (req, res, next) => {
  */
 exports.getStuBySpecification = async (req, res, next) => {
   try {
+    console.log(req.query.class_id, req.query.section_id);
     let student = await Student.findAll({
       where: {
         class_id: req.query.class_id,
         section_id: req.query.section_id,
       },
     });
+    console.log(student);
     res.status(200).json({
       status: "success",
       data: student,
     });
-    // console.log(student.class)
   } catch (err) {
     res.status(400).json({
       status: "success",
@@ -436,8 +437,8 @@ exports.multiClassStudent = async (req, res, next) => {
       data["firstname"] = student[i].firstname;
       data["gender"] = student[i].gender;
     });
-    let arr = []
-    arr.push(data)
+    let arr = [];
+    arr.push(data);
 
     res.status(200).json({
       status: "success",

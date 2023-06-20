@@ -1,4 +1,6 @@
 const { sequelize, DataTypes } = require("../connection");
+const Staff = require("./Staff");
+const users = require("./User");
 
 const StaffRating = sequelize.define("staff_rating", {
   id: {
@@ -7,13 +9,7 @@ const StaffRating = sequelize.define("staff_rating", {
     allowNull: false,
     primaryKey: true,
   },
-  staff_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: "staffs",
-      key: "id",
-    },
-  },
+
   comment: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -22,13 +18,7 @@ const StaffRating = sequelize.define("staff_rating", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  user_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: "users",
-      key: "id",
-    },
-  },
+
   applicatiion_status: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -38,5 +28,19 @@ const StaffRating = sequelize.define("staff_rating", {
     allowNull: false,
   },
 });
+
+// StaffRating.belongsTo(Staff, {
+//   foreignKey: "staff_id",
+//   targetKey: "id",
+//   onDelete: null,
+// });
+
+// StaffRating.belongsTo(users, {
+//   foreignKey: "user_id",
+//   targetKey: "id",
+//   onDelete: null,
+// });
+
+// StaffRating.sync({ alter: true });
 
 module.exports = StaffRating;

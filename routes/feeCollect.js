@@ -4,7 +4,7 @@ const router = require('express').Router()
 
 router.get('/:student_id' , feeCollectController.collectStudentFee);
 router.get('/searchFeePaymentStatus/:payment_id',feeCollectController.status);
-router.post('/createFeeCollect',feeCollectController.create);
+router.post('/createFeeCollect',feeCollectController.collectStudentFee);
 router.put('/updateStatus',feeCollectController.updatePAyment);
 // router.post('/' , FeeDiscountController.createFeeDiscount)
 // router.delete('/:id' , FeeDiscountController.deleteFeeDiscount)
