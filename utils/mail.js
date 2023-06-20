@@ -42,7 +42,7 @@ const nodemailer = require('nodemailer')
 
 
 const sendCredentialsMail = async options => {
-
+console.log("in")
   let transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
@@ -53,12 +53,12 @@ const sendCredentialsMail = async options => {
 
   });
 
-  // let info = await transporter.sendMail({
-  //   from: "My School", 
-  //   to:options.email, 
-  //   subject: options.subject,
-  //   text:options.message
-  // })
+  let info = await transporter.sendMail({
+    from: "My School", 
+    to:options.email, 
+    subject: options.subject,
+    text:options.message
+  })
 
   console.log( options)
   

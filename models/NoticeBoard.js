@@ -7,10 +7,6 @@ const noticeBoard = sequelize.define("notice_board", {
     autoIncrement: true,
     primaryKey: true,
   },
-  PublishOn: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,

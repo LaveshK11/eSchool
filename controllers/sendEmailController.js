@@ -159,7 +159,6 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     if (req.body.type === "student") attrib.push("email");
     else if (req.body.type === "parent") attrib.push("gaurdian_email");
-
     //   else if (req.body.type === 'both') {
     //     attrib.push('email')
     //     attrib.push('gaurdian_email')
@@ -174,11 +173,13 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     for (const st of students) {
       let emails = [];
-
       if (req.body.type === "student") {
         emails.push(st.getDataValue("email"));
       } else if (req.body.type === "parent") {
-        emails.push(st.getDataValue("gaurdian_email"));
+        emails.push(st.getDataValue("gaurdian_email"));       res.status(200).json({
+          status: "success",
+          message: "Mail Sent successfully!",
+        });
       }
 
       // else if(type ==='both'){
@@ -190,23 +191,36 @@ exports.sendLoginCredential = async (req, res, next) => {
         where: { user_id: st.getDataValue("id") },
       });
 
-      if (emails.length > 0 && user)
-        setTimeout(
-          await sendCredentialsMail({
+      if (emails.length > 0 )
+      {
+        setTimeout(async ()=>{
+           sendCredentialsMail({
             email: emails,
             subject: "Login Credentials",
             message: `Here are your login credentials email ${
               emails[0]
-            } and password is : ${user.getDataValue("original_password")}`,
-          }),
-          schedule
-        );
+            } and password is :gggg`,
+          })
+        }
+      ,
+         schedule
+       );
+       res.status(200).json({
+         status: "success",
+         message: "Mail Sent successfully!",
+       });
+
+      }
+      else{
+        res.status(422).json({
+          status: "false",
+          message: "Unobjectified input fields",
+        });
+      }
+
     }
 
-    res.status(200).json({
-      status: "success",
-      message: "Mail Sent successfully!",
-    });
+
   } catch (err) {
     next(err);
   }
