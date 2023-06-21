@@ -39,7 +39,8 @@ exports.collectStudentFee = async(req,res)=>{
 
   try {
     
-    let student_id = req.params.student_id
+    let student_id = req.params.student_id;
+    console.log("Student ID: " + student_id);
 
 
 
