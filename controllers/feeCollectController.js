@@ -47,7 +47,7 @@ exports.collectStudentFee = async(req,res)=>{
     let student_id = req.params.student_id;
     console.log(student_id);
     const fees_data=await feeCollect.findOne({where:{student_id:student_id}});
-    res.send({"fees_data":fees_data});    
+    res.send({"fees_data":fees_data});   
 
 
 
