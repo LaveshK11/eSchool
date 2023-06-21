@@ -6,7 +6,7 @@ const Class = require('../models/Class')
 const Section = require('../models/Section')
 const subjectGroup = require('../models/SubjectGroup')
 const subject = require('../models/Subject')
-const appError = require('../utils/appError')
+const appError = require('../utils/AppError')
 
 exports.getAllTopics = async(req,res,next)=>{
 

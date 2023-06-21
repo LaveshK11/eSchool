@@ -3,7 +3,7 @@ const classSection = require('../models/ClassSections')
 const Staff = require('../models/Staff')
 const Class = require('../models/Class')
 const Section = require('../models/Section')
-const AppError = require('../utils/appError')
+const AppError = require('../utils/AppError')
 // const appError = require('../utils/appError')
 
 

@@ -1,7 +1,7 @@
 const videoTutorial = require('../models/VideoTutorial')
 const ClassSection = require('../models/ClassSections')
 const videoTutorialSection = require('../models/videoTutorialSections')
-const AppError = require('../utils/appError')
+const AppError = require('../utils/AppError')
 const {Op} = require('sequelize')
 
 exports.getAllContent = async (req, res, next) => {

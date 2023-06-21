@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Student = require("../models/student");
-const AppError = require("../utils/appError");
+const AppError = require("../utils/AppError");
 const multer = require("multer");
 const { sendMail, sendCredentialsMail } = require("../utils/mail");
 const { emailTemplate } = require("../models/EmailTemplate");

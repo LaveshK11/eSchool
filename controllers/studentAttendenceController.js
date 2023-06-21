@@ -6,7 +6,7 @@ const ApproveLeave = require('../models/StudentApproveLeave')
 const Staff = require('../models/Staff')
 const Class = require('../models/Class')
 const Section = require('../models/Section')
-const appError = require('../utils/appError')
+const appError = require('../utils/AppError')
 const sequelize = require('sequelize')
 
 const storage = multer.diskStorage({
