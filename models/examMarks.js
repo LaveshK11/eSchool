@@ -16,6 +16,6 @@ const examMarks = sequelize.define('exam_marks',{
 
 })
 
-examMarks.belongsTo(examGroupExamSubjects,{foreignKey:'exam_group_exam_subject_id',targetKey:'id',onDelete:'cascade'})
+// examMarks.belongsTo(examGroupExamSubjects,{foreignKey:'exam_group_exam_subject_id',targetKey:'id',onDelete:'cascade'})
 
 module.exports = examMarks

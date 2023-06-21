@@ -14,7 +14,7 @@ const classTeachers = sequelize.define('class_teacher',{
 
 })
 
-classTeachers.belongsTo(classSections,{foreignKey:'class_section_id',targetKey:'id',onDelete:'CASCADE'})
-classTeachers.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id',onDelete:'CASCADE'})
+// classTeachers.belongsTo(classSections,{foreignKey:'class_section_id',targetKey:'id',onDelete:'CASCADE'})
+// classTeachers.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id',onDelete:'CASCADE'})
 
 module.exports = classTeachers

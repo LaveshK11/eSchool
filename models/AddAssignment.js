@@ -38,11 +38,11 @@ const addAssingment = sequelize.define('add_homework',{
 
 })
 
-addAssingment.belongsTo(Class,{foreignKey:'class_id',targetKey:'id',onDelete:'CASCADE'})
-addAssingment.belongsTo(section,{foreignKey:'section_id',targetKey:'id',onDelete:'CASCADE'})
-addAssingment.belongsTo(subject,{foreignKey:'subject_id',targetKey:'id',onDelete:'CASCADE'})
-addAssingment.belongsTo(subjectGroup,{foreignKey:'subject_group_id',targetKey:'id',onDelete:'CASCADE'})
-addAssingment.belongsTo(staff,{foreignKey:'created_by_id',targetKey:'id',onDelete:null})
+// addAssingment.belongsTo(Class,{foreignKey:'class_id',targetKey:'id',onDelete:'CASCADE'})
+// addAssingment.belongsTo(section,{foreignKey:'section_id',targetKey:'id',onDelete:'CASCADE'})
+// addAssingment.belongsTo(subject,{foreignKey:'subject_id',targetKey:'id',onDelete:'CASCADE'})
+// addAssingment.belongsTo(subjectGroup,{foreignKey:'subject_group_id',targetKey:'id',onDelete:'CASCADE'})
+// addAssingment.belongsTo(staff,{foreignKey:'created_by_id',targetKey:'id',onDelete:null})
 
 // addAssingment.sync({alter:true})
 

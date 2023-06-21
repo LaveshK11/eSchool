@@ -1,6 +1,11 @@
-const Class = require('../models/Class')
-const Section = require('../models/Section')
-const Student = require('../models/student')
+// const Class = require('../models/Class')
+// const Section = require('../models/Section')
+
+const feeCollect = require("../models/FeeCollect")
+
+// const Student = require('../models/student')
+
+
 
 exports.getClassSectionStudent = async(req,res)=>{
 
@@ -40,12 +45,14 @@ exports.collectStudentFee = async(req,res)=>{
   try {
     
     let student_id = req.params.student_id;
-    console.log("Student ID: " + student_id);
-
+    console.log(student_id);
+    const fees_data=await feeCollect.findOne({where:{student_id:student_id}});
+    res.send({"fees_data":fees_data});   
 
 
 
   } catch (err) {
+    console.log(err.message);
     res.status(400).json({
       status:'fail',
       message:err.message
