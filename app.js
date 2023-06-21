@@ -115,7 +115,7 @@ const feeType = require("./routes/feeType");
 const feeDiscount = require("./routes/feeDiscount");
 const feeMaster = require("./routes/feeMaster");
 const feeReminder = require("./routes/feeReminder");
-
+const feeCollect = require("./routes/feeCollect");
 //downloads center
 const contentType = require("./routes/contentType");
 const downloadContent = require("./routes/downloadContent");
@@ -168,7 +168,7 @@ const routePickupPoint = require("./routes/routePickupPoint");
 //communicate
 const emailSmsTemplate = require("./routes/emailSmsTemplate");
 const sendMail = require("./routes/sendEmail");
-const notice = require('./routes/noticeBoard')
+const notice = require("./routes/noticeBoard");
 
 const report = require("./routes/report");
 
@@ -317,6 +317,7 @@ app.use("/api/v1/feeType", feeType);
 app.use("/api/v1/feeDiscount", feeDiscount);
 app.use("/api/v1/feeMaster", feeMaster);
 app.use("/api/v1/feeReminder", feeReminder);
+app.use("/api/v1/fee", feeCollect);
 
 //content type
 app.use("/api/v1/contentType", contentType);
