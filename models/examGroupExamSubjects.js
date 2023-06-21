@@ -33,8 +33,8 @@ const examGroupExamSubjects = sequelize.define('exam_group_exam_subjects',{
   }
 })
 
-examGroupExamSubjects.belongsTo(Subject,{foreignKey:'subject_id',targetKey:'id',onDelete:'cascade'})
-examGroupExamSubjects.belongsTo(examGroupExam,{foreignKey:'exam_group_exam_id',targetKey:'id',onDelete:'cascade'})
+// examGroupExamSubjects.belongsTo(Subject,{foreignKey:'subject_id',targetKey:'id',onDelete:'cascade'})
+// examGroupExamSubjects.belongsTo(examGroupExam,{foreignKey:'exam_group_exam_id',targetKey:'id',onDelete:'cascade'})
 
 // examGroupExamSubjects.sync({alter:true})
 

@@ -43,8 +43,8 @@ const applyLeave = sequelize.define('apply_leave', {
 
 })
 
-applyLeave.belongsTo(LeaveType,{foreignKey:'leave_type_id',targetKey:'id',onDelete:null,constraints:false})
-applyLeave.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id',onDelete:'CASCADE'})
+// applyLeave.belongsTo(LeaveType,{foreignKey:'leave_type_id',targetKey:'id',onDelete:null,constraints:false})
+// applyLeave.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id',onDelete:'CASCADE'})
 
 // applyLeave.sync({alter:true})
 

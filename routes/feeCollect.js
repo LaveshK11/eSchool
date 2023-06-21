@@ -2,7 +2,7 @@ const feeCollectController = require('../controllers/feeCollectController')
 const router = require('express').Router()
 
 
-router.get('/' , feeCollectController.collectStudentFee)
+router.get('/:student_id' , feeCollectController.collectStudentFee)
 // router.post('/' , FeeDiscountController.createFeeDiscount)
 // router.delete('/:id' , FeeDiscountController.deleteFeeDiscount)
 // router.patch('/:id' , FeeDiscountController.updateFeeDiscount)

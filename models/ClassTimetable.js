@@ -28,11 +28,11 @@ const classTimetable = sequelize.define('class_timetable',{
 
 })
 
-classTimetable.belongsTo(Class,{foreignKey:'class_id',targetKey:'id'})
-classTimetable.belongsTo(Section,{foreignKey:'section_id',targetKey:'id'})
-classTimetable.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id'})
-classTimetable.belongsTo(Subject,{foreignKey:'subject_id',targetKey:'id'})
-classTimetable.belongsTo(subjectGroups,{foreignKey:'subject_group_id',targetKey:'id'})
+// classTimetable.belongsTo(Class,{foreignKey:'class_id',targetKey:'id'})
+// classTimetable.belongsTo(Section,{foreignKey:'section_id',targetKey:'id'})
+// classTimetable.belongsTo(Staff,{foreignKey:'staff_id',targetKey:'id'})
+// classTimetable.belongsTo(Subject,{foreignKey:'subject_id',targetKey:'id'})
+// classTimetable.belongsTo(subjectGroups,{foreignKey:'subject_group_id',targetKey:'id'})
 
 
 // classTimetable.sync({alter:true})

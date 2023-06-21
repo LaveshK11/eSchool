@@ -14,7 +14,7 @@ const examGroupExamStudents = sequelize.define('exam_group_exam_students',{
 
 })
 
-examGroupExamStudents.belongsTo(Student,{foreignKey:'student_id',targetKey:'id',onDelete:'CASCADE'})
-examGroupExamStudents.belongsTo(examGroupExam,{foreignKey:'exam_group_exam_id',targetKey:'id',onDelete:'CASCADE'})
+// examGroupExamStudents.belongsTo(Student,{foreignKey:'student_id',targetKey:'id',onDelete:'CASCADE'})
+// examGroupExamStudents.belongsTo(examGroupExam,{foreignKey:'exam_group_exam_id',targetKey:'id',onDelete:'CASCADE'})
 
 module.exports = examGroupExamStudents

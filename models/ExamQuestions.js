@@ -21,7 +21,7 @@ const ExamQuestions = sequelize.define('exam_questions',{
 
 })
 
-ExamQuestions.belongsTo(OnlineExamOuestion,{foreignKey:'question_id',targetKey:'id',onDelete:'cascade'})
-ExamQuestions.belongsTo(OnlineExam,{foreignKey:'online_exam_id',targetKey:'id',onDelete:'cascade'})
+// ExamQuestions.belongsTo(OnlineExamOuestion,{foreignKey:'question_id',targetKey:'id',onDelete:'cascade'})
+// ExamQuestions.belongsTo(OnlineExam,{foreignKey:'online_exam_id',targetKey:'id',onDelete:'cascade'})
 // ExamQuestions.sync({alter:true})
 module.exports = ExamQuestions
