@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage }).single("document");
+
 exports.createNotice = async (req, res, next) => {
   console.log(req.body);
   upload(req, res, async (err) => {

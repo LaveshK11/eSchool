@@ -1,6 +1,8 @@
 exports.getAll = (Model) => async (req, res, next) => {
   try {
+    console.log(Model)
     let data = await Model.findAll();
+    console.log(data)
     res.status(200).json({
       status: "success",
       data,

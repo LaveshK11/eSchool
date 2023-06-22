@@ -8,7 +8,6 @@ const { sequelize } = require("./connection");
 const app = express();
 const createDirectory = require("./directories");
 const globalErrorHandler = require("./utils/errorHandler");
-console.log("Her");
 
 const admissionEnquiry = require("./routes/admissionEnquiry");
 const visitorBook = require("./routes/visirtorBook");
