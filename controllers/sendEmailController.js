@@ -17,13 +17,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single("attachment");
 
-exports.sendEmailGroup = async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.sendEmailIndividual = async (req, res, next) => {
   try {
   } catch (err) {
@@ -138,8 +131,14 @@ exports.getBirthdayUsers = async (req, res, next) => {
 
 exports.sendLoginCredential = async (req, res, next) => {
   try {
-    let schedule = 0;
-    if (req.body.hasOwnProperty("_scheduler")) {
+    const dateString = req.body.ScheduleDate
+    const dateParts = dateString.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month, day);
+    const schedule = Math.floor(date.getMilliseconds);
+    if (req.body.hasOwnProperty("ScheduleDate")) {
       console.log(req.body._scheduler);
       let ms = new Date().getMilliseconds();
       schedule = req.body._scheduler - ms;
@@ -176,7 +175,8 @@ exports.sendLoginCredential = async (req, res, next) => {
       if (req.body.type === "student") {
         emails.push(st.getDataValue("email"));
       } else if (req.body.type === "parent") {
-        emails.push(st.getDataValue("gaurdian_email"));       res.status(200).json({
+        emails.push(st.getDataValue("gaurdian_email"));
+        res.status(200).json({
           status: "success",
           message: "Mail Sent successfully!",
         });
@@ -191,36 +191,25 @@ exports.sendLoginCredential = async (req, res, next) => {
         where: { user_id: st.getDataValue("id") },
       });
 
-      if (emails.length > 0 )
-      {
-        setTimeout(async ()=>{
-           sendCredentialsMail({
+      if (emails.length > 0) {
+        setTimeout(async () => {
+          sendCredentialsMail({
             email: emails,
             subject: "Login Credentials",
-            message: `Here are your login credentials email ${
-              emails[0]
-            } and password is :gggg`,
-          })
-        }
-      ,
-         schedule
-       );
-       res.status(200).json({
-         status: "success",
-         message: "Mail Sent successfully!",
-       });
-
-      }
-      else{
+            message: `Here are your login credentials email ${emails[0]} and password is :gggg`,
+          });
+        }, schedule);
+        res.status(200).json({
+          status: "success",
+          message: "Mail Sent successfully!",
+        });
+      } else {
         res.status(422).json({
           status: "false",
           message: "Unobjectified input fields",
         });
       }
-
     }
-
-
   } catch (err) {
     next(err);
   }
