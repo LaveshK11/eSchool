@@ -2,7 +2,7 @@ const User = require("../models/User");
 const Student = require("../models/student");
 const AppError = require("../utils/AppError");
 const multer = require("multer");
-const { sendMail, sendCredentialsMail } = require("../utils/mail");
+const { smtpClient } = require("../utils/mail");
 const { emailTemplate } = require("../models/EmailTemplate");
 const { Op, DATE } = require("sequelize");
 
@@ -140,8 +140,7 @@ exports.sendLoginCredential = async (req, res, next) => {
   try {
     let schedule = 0;
     if (req.body.hasOwnProperty("_scheduler")) {
-      console.log(req.body._scheduler);
-      let ms = new Date().getMilliseconds();
+      let ms = Date.now();
       schedule = req.body._scheduler - ms;
     }
 
@@ -192,7 +191,7 @@ exports.sendLoginCredential = async (req, res, next) => {
 
       if (emails.length > 0 && user)
         setTimeout(
-          await sendCredentialsMail({
+          await smtpClient({
             email: emails,
             subject: "Login Credentials",
             message: `Here are your login credentials email ${
@@ -210,4 +209,56 @@ exports.sendLoginCredential = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.sendMail = async (req, res, next) => {
+  let schedule_TIME = 0;
+  if (req.body.hasOwnProperty("ScheduleDate")) {
+    const dateString = req.body.ScheduleDate;
+    const dateParts = dateString.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month - 1, day);
+    const schedule = Math.floor(date.getTime());
+    const today = Date.now().valueOf();
+    schedule_TIME = schedule - today;
+  }
+
+  const message = req.body.message;
+  let sendMailTo = ["vipul.khanna@fiftyfivetech.io"];
+  if (req.body.student) {
+    const studentData = await Student.findAll({
+      attributes: ["email"],
+    });
+    sendMailTo = [
+      ...sendMailTo,
+      ...studentData.reduce((acc, studentData) => {
+        acc = [...acc, studentData.dataValues.email];
+        return acc;
+      }, []),
+    ];
+  }
+  if (req.body.Parent) {
+    const studentData = await Student.findAll({
+      attributes: ["gaurdian_email"],
+    });
+    sendMailTo = [
+      ...sendMailTo,
+      ...studentData.reduce((acc, studentData) => {
+        acc = [...acc, studentData.dataValues.gaurdian_email];
+        return acc;
+      }, []),
+    ];
+  }
+  if (sendMailTo.length) {
+    setTimeout(async () => {
+      await smtpClient({
+        email: sendMailTo,
+        subject: req.body.title,
+        message: `This is the temp mail${req.body.message}`,
+      })
+    }, schedule_TIME);
+  }
+  res.status(200).send({ data: { message: "Mail sent success fully" } });
 };

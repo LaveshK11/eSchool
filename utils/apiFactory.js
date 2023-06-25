@@ -23,7 +23,6 @@ exports.create = (Model) => async (req, res, next) => {
 };
 
 exports.delete = (Model) => async (req, res, next) => {
-  console.log(req.body);
   try {
     await Model.destroy({ where: { id: req.params.id } });
     res.status(200).json({
