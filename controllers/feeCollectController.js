@@ -2,6 +2,8 @@
 // const Section = require('../models/Section')
 
 const feeCollect = require("../models/FeeCollect");
+const FeeGroup = require("../models/FeeGroup");
+const feeMaster = require("../models/FeeMaster");
 
 // const Student = require('../models/student')
 
@@ -41,11 +43,23 @@ exports.collectStudentFee = async (req, res) => {
   try {
     let student_id = req.params.student_id;
     console.log(student_id);
-    const fees_data=await feeCollect.findOne({where:{student_id:student_id}});
-    res.send({"fees_data":fees_data});   
-
-
-
+    const fees_data = await feeCollect.findAll({
+      where: { student_id },
+      attributes: ["id", "status", "mode", "fine", "paid", "balance"],
+      include: [
+        {
+          model: feeMaster,
+          attributes: ["amount", "due_date", "fine_amount"],
+          include: [
+            {
+              model: FeeGroup,
+              attributes: ["name", "description"],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).send({ data: fees_data });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({

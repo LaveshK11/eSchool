@@ -48,9 +48,4 @@ feeCollect.belongsTo(feeDiscount, {
 feeCollect.belongsTo(Session, { foreignKey: "session_id", targetKey: "id" });
 feeCollect.belongsTo(Student, { foreignKey: "student_id", targetKey: "id" });
 
-feeCollect.belongsTo(feeMaster,{foreignKey:'fee_master_id',targetKey:'id'})
-// feeCollect.belongsTo(feeDiscount,{foreignKey:'discount_id',targetKey:'id',})
-// feeCollect.belongsTo(Session,{foreignKey:'session_id',targetKey:'id'})
-feeCollect.belongsTo(Student,{foreignKey:'student_id',targetKey:'id'})
-
-
+module.exports = feeCollect;
