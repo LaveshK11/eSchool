@@ -16,6 +16,10 @@ router.post('/sendBirthdayEmail',sendEmailController.sendEmailTodayBirthDay)
  * @body type student or parent 
  * @body id[] array of selected student id
  */
-router.post('/sendCredentials',sendEmailController.sendLoginCredential)
+router.post('/sendCredentials',sendEmailController.sendLoginCredential);
+
+
+
+router.post('/sendEmail',sendEmailController.sendMail)
 
 module.exports = router
