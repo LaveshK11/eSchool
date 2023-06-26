@@ -71,7 +71,7 @@ exports.collectStudentFee = async (req, res) => {
           amount: feesData.fee_master.amount,
           due_date: feesData.fee_master.due_date,
           fine_amount: feesData.fee_master.fine_amount,
-          feeGroupame: feesData.fee_master.fee_group.name,
+          feeGrpiname: feesData.fee_master.fee_group.name,
           description: feesData.fee_master.fee_group.description,
         },
       ];
