@@ -1,6 +1,6 @@
 const { sequelize, DataTypes } = require("../connection");
 
-const StaffRating = sequelize.define("staff_rating", {
+const StaffRating = sequelize.define("staff_ratings", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -9,10 +9,10 @@ const StaffRating = sequelize.define("staff_rating", {
   },
   staff_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: "staffs",
-      key: "id",
-    },
+    // references: {
+    //   model: "staffs",
+    //   key: "id",
+    // },
   },
   comment: {
     type: DataTypes.STRING,
@@ -24,10 +24,10 @@ const StaffRating = sequelize.define("staff_rating", {
   },
   user_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: "users",
-      key: "id",
-    },
+    // references: {
+    //   model: "users",
+    //   key: "id",
+    // },
   },
   applicatiion_status: {
     type: DataTypes.STRING,

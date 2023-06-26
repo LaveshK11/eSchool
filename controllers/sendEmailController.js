@@ -17,13 +17,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single("attachment");
 
-exports.sendEmailGroup = async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.sendEmailIndividual = async (req, res, next) => {
   try {
   } catch (err) {
@@ -138,9 +131,22 @@ exports.getBirthdayUsers = async (req, res, next) => {
 
 exports.sendLoginCredential = async (req, res, next) => {
   try {
+<<<<<<< HEAD
     let schedule = 0;
     if (req.body.hasOwnProperty("_scheduler")) {
       let ms = Date.now();
+=======
+    const dateString = req.body.ScheduleDate
+    const dateParts = dateString.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month, day);
+    const schedule = Math.floor(date.getMilliseconds);
+    if (req.body.hasOwnProperty("ScheduleDate")) {
+      console.log(req.body._scheduler);
+      let ms = new Date().getMilliseconds();
+>>>>>>> master
       schedule = req.body._scheduler - ms;
     }
 
@@ -158,7 +164,6 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     if (req.body.type === "student") attrib.push("email");
     else if (req.body.type === "parent") attrib.push("gaurdian_email");
-
     //   else if (req.body.type === 'both') {
     //     attrib.push('email')
     //     attrib.push('gaurdian_email')
@@ -173,11 +178,14 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     for (const st of students) {
       let emails = [];
-
       if (req.body.type === "student") {
         emails.push(st.getDataValue("email"));
       } else if (req.body.type === "parent") {
         emails.push(st.getDataValue("gaurdian_email"));
+        res.status(200).json({
+          status: "success",
+          message: "Mail Sent successfully!",
+        });
       }
 
       // else if(type ==='both'){
@@ -189,23 +197,31 @@ exports.sendLoginCredential = async (req, res, next) => {
         where: { user_id: st.getDataValue("id") },
       });
 
+<<<<<<< HEAD
       if (emails.length > 0 && user)
         setTimeout(
           await smtpClient({
+=======
+      if (emails.length > 0) {
+        setTimeout(async () => {
+          sendCredentialsMail({
+>>>>>>> master
             email: emails,
             subject: "Login Credentials",
-            message: `Here are your login credentials email ${
-              emails[0]
-            } and password is : ${user.getDataValue("original_password")}`,
-          }),
-          schedule
-        );
+            message: `Here are your login credentials email ${emails[0]} and password is :gggg`,
+          });
+        }, schedule);
+        res.status(200).json({
+          status: "success",
+          message: "Mail Sent successfully!",
+        });
+      } else {
+        res.status(422).json({
+          status: "false",
+          message: "Unobjectified input fields",
+        });
+      }
     }
-
-    res.status(200).json({
-      status: "success",
-      message: "Mail Sent successfully!",
-    });
   } catch (err) {
     next(err);
   }
