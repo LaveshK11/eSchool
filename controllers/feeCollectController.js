@@ -42,10 +42,6 @@ exports.getClassSectionStudent = async (req, res) => {
 exports.collectStudentFee = async (req, res) => {
   try {
     let student_id = req.params.student_id;
-<<<<<<< HEAD
-    console.log(student_id);
-=======
->>>>>>> master
     const fees_data = await feeCollect.findAll({
       where: { student_id },
       attributes: ["id", "status", "mode", "fine", "paid", "balance"],
@@ -62,11 +58,8 @@ exports.collectStudentFee = async (req, res) => {
         },
       ],
     });
-<<<<<<< HEAD
-    res.status(200).send({ data: fees_data });
-=======
     const dataDeliver = fees_data.reduce((acc, feesData) => {
-      console.log(feesData.fee_master)
+      console.log(fee)
       acc = [
         ...acc,
         {
@@ -78,7 +71,7 @@ exports.collectStudentFee = async (req, res) => {
           amount: feesData.fee_master.amount,
           due_date: feesData.fee_master.due_date,
           fine_amount: feesData.fee_master.fine_amount,
-          feeGrpiname: feesData.fee_master.fee_group.name,
+          name: feesData.fee_master.fee_group.name,
           description: feesData.fee_master.fee_group.description,
         },
       ];
@@ -86,7 +79,6 @@ exports.collectStudentFee = async (req, res) => {
     }, []);
 
     res.status(200).send({ data: dataDeliver });
->>>>>>> master
   } catch (err) {
     console.log(err.message);
     res.status(400).json({
@@ -94,9 +86,6 @@ exports.collectStudentFee = async (req, res) => {
       message: err.message,
     });
   }
-<<<<<<< HEAD
-};
-=======
 };
 
 exports.status = async (req, res, next) => {
@@ -124,4 +113,3 @@ exports.updatePAyment = (req, res, next) => {
   const id = req.body.id;
   const mode = req.body.mode;
 };
->>>>>>> master
