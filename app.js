@@ -316,6 +316,7 @@ app.use("/api/v1/feeType", feeType);
 app.use("/api/v1/feeDiscount", feeDiscount);
 app.use("/api/v1/feeMaster", feeMaster);
 app.use("/api/v1/feeReminder", feeReminder);
+app.use("/api/vi/feeCollect", feeCollect);
 
 //content type
 app.use("/api/v1/contentType", contentType);
