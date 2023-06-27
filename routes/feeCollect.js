@@ -1,9 +1,13 @@
-const FeeCategoryController = require("../controllers/feeCollectController");
-const router = require("express").Router();
+const feeCollectController = require('../controllers/feeCollectController')
+const router = require('express').Router()
 
-router.get("/", (req, res) => {
-  console.log("ok");
-});
-router.get("/:student_id", FeeCategoryController.collectStudentFee);
 
-module.exports = router;
+router.get('/:student_id' , feeCollectController.collectStudentFee);
+router.get('/searchFeePaymentStatus/:payment_id',feeCollectController.status);
+// router.post('/' , FeeDiscountController.createFeeDiscount)
+// router.delete('/:id' , FeeDiscountController.deleteFeeDiscount)
+// router.patch('/:id' , FeeDiscountController.updateFeeDiscount)
+
+
+
+module.exports  = router

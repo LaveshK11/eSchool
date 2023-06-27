@@ -1,8 +1,8 @@
 const User = require("../models/User");
 const Student = require("../models/student");
-const AppError = require("../utils/appError");
+const AppError = require("../utils/AppError");
 const multer = require("multer");
-const { sendMail, sendCredentialsMail } = require("../utils/mail");
+const { smtpClient } = require("../utils/mail");
 const { emailTemplate } = require("../models/EmailTemplate");
 const { Op, DATE } = require("sequelize");
 
@@ -16,6 +16,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage }).single("attachment");
+
+exports.sendEmailGroup = async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.sendEmailIndividual = async (req, res, next) => {
   try {
@@ -131,16 +138,9 @@ exports.getBirthdayUsers = async (req, res, next) => {
 
 exports.sendLoginCredential = async (req, res, next) => {
   try {
-    const dateString = req.body.ScheduleDate
-    const dateParts = dateString.split("-");
-    const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]);
-    const day = parseInt(dateParts[2]);
-    const date = new Date(year, month, day);
-    const schedule = Math.floor(date.getMilliseconds);
-    if (req.body.hasOwnProperty("ScheduleDate")) {
-      console.log(req.body._scheduler);
-      let ms = new Date().getMilliseconds();
+    let schedule = 0;
+    if (req.body.hasOwnProperty("_scheduler")) {
+      let ms = Date.now();
       schedule = req.body._scheduler - ms;
     }
 
@@ -158,6 +158,7 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     if (req.body.type === "student") attrib.push("email");
     else if (req.body.type === "parent") attrib.push("gaurdian_email");
+
     //   else if (req.body.type === 'both') {
     //     attrib.push('email')
     //     attrib.push('gaurdian_email')
@@ -172,14 +173,11 @@ exports.sendLoginCredential = async (req, res, next) => {
 
     for (const st of students) {
       let emails = [];
+
       if (req.body.type === "student") {
         emails.push(st.getDataValue("email"));
       } else if (req.body.type === "parent") {
         emails.push(st.getDataValue("gaurdian_email"));
-        res.status(200).json({
-          status: "success",
-          message: "Mail Sent successfully!",
-        });
       }
 
       // else if(type ==='both'){
@@ -191,26 +189,76 @@ exports.sendLoginCredential = async (req, res, next) => {
         where: { user_id: st.getDataValue("id") },
       });
 
-      if (emails.length > 0) {
-        setTimeout(async () => {
-          sendCredentialsMail({
+      if (emails.length > 0 && user)
+        setTimeout(
+          await smtpClient({
             email: emails,
             subject: "Login Credentials",
-            message: `Here are your login credentials email ${emails[0]} and password is :gggg`,
-          });
-        }, schedule);
-        res.status(200).json({
-          status: "success",
-          message: "Mail Sent successfully!",
-        });
-      } else {
-        res.status(422).json({
-          status: "false",
-          message: "Unobjectified input fields",
-        });
-      }
+            message: `Here are your login credentials email ${
+              emails[0]
+            } and password is : ${user.getDataValue("original_password")}`,
+          }),
+          schedule
+        );
     }
+
+    res.status(200).json({
+      status: "success",
+      message: "Mail Sent successfully!",
+    });
   } catch (err) {
     next(err);
   }
+};
+
+exports.sendMail = async (req, res, next) => {
+  let schedule_TIME = 0;
+  if (req.body.hasOwnProperty("ScheduleDate")) {
+    const dateString = req.body.ScheduleDate;
+    const dateParts = dateString.split("-");
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+    const date = new Date(year, month - 1, day);
+    const schedule = Math.floor(date.getTime());
+    const today = Date.now().valueOf();
+    schedule_TIME = schedule - today;
+  }
+
+  const message = req.body.message;
+  let sendMailTo = ["vipul.khanna@fiftyfivetech.io"];
+  if (req.body.student) {
+    const studentData = await Student.findAll({
+      attributes: ["email"],
+    });
+    sendMailTo = [
+      ...sendMailTo,
+      ...studentData.reduce((acc, studentData) => {
+        acc = [...acc, studentData.dataValues.email];
+        return acc;
+      }, []),
+    ];
+  }
+  if (req.body.Parent) {
+    const studentData = await Student.findAll({
+      attributes: ["gaurdian_email"],
+    });
+    sendMailTo = [
+      ...sendMailTo,
+      ...studentData.reduce((acc, studentData) => {
+        acc = [...acc, studentData.dataValues.gaurdian_email];
+        return acc;
+      }, []),
+    ];
+  }
+  if (sendMailTo.length) {
+    setTimeout(async () => {
+      await smtpClient({
+        email: sendMailTo,
+        subject: req.body.title,
+        message: `This is the temp mail${req.body.message}`,
+      });
+    }, schedule_TIME);
+  }
+  res.status(200).send({ data: { message: "Mail sent success fully" } });
 };

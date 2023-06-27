@@ -6,63 +6,32 @@ the `transporter` object to send the email using the `sendMail` method. The func
 HTML content of the email to the console. Finally, the function is exported so that it can be used
 in other parts of the codebase. */
 
+const nodemailer = require("nodemailer");
 
-const nodemailer = require('nodemailer')
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  auth: {
+    user: "",
+    pass: "",
+  },
+});
 
- const sendMail = async options => {
-
-  let transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: "ae9b023e5134a6",
-      pass: "f1c1c69a109acf"  
-    }
-
-  });
-
-  
-
+const smtpClient = async (options) => {
   let info = await transporter.sendMail({
     from: "My School", // sender address
-    to:options.email, // list of receivers
+    to: options.email, // list of receivers
     subject: options.subject,
-    text:options.message,
-    attachments:[
-      {
-        filename:'',
-        path:options.path
-      }
-    ]
+    html: `<p>${options.message}</p>`,
   });
-
-  console.log(options)
-  
-}
-
-
-const sendCredentialsMail = async options => {
-console.log("in")
-  let transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: "ae9b023e5134a6",
-      pass: "f1c1c69a109acf"  
+  transporter.sendMail(info, (error, response) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Mail sent successfully to ", options.email);
     }
-
   });
+};
 
-  let info = await transporter.sendMail({
-    from: "My School", 
-    to:options.email, 
-    subject: options.subject,
-    text:options.message
-  })
-
-  console.log( options)
-  
-}
-
-
-module.exports = {sendMail , sendCredentialsMail}
+module.exports = { smtpClient };
