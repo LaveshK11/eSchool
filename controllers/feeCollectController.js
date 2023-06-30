@@ -56,8 +56,6 @@ exports.getClassSectionStudent = async (req, res) => {
 exports.collectStudentFee = async (req, res) => {
   try {
     let student_id = req.params.student_id;
-    const data = await feeCollect.findAll({});
-    return res.status(200).send({ data: data });
     const fees_data = await feeCollect.findAll({
       where: { student_id },
       attributes: ["id", "status", "mode", "fine", "paid", "balance"],
@@ -74,7 +72,6 @@ exports.collectStudentFee = async (req, res) => {
         },
       ],
     });
-    console.log("=================", fees_data);
     const dataDeliver = fees_data.reduce((acc, feesData) => {
       acc = [
         ...acc,
