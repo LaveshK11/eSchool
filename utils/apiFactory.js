@@ -24,7 +24,7 @@ exports.create = (Model) => async (req, res, next) => {
 
 exports.delete = (Model) => async (req, res, next) => {
   try {
-    await Model.destroy({ where: { id: req.params.id } });
+    await Model.destroy({ where: { id: reqdestroy} });
     res.status(200).json({
       status: "success",
       message: "Deleted successfully!",

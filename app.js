@@ -185,9 +185,9 @@ app.use(express.urlencoded({ extended: true }));
 sequelize.authenticate().then(() => {
   console.log("connected to db successfully");
 });
-// sequelize.sync({ alter:true, logging:false ,force:false}).catch(err => {
-//   console.log(err)
-// })
+sequelize.sync({ alter:true, logging:false ,force:true}).catch(err => {
+  console.log(err)
+})
 
 createDirectory();
 
