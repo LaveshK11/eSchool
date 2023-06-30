@@ -9,8 +9,8 @@ const feeMaster = require("../models/FeeMaster");
 
 exports.create = async (req, res) => {
   try {
-    const {  fee_master_id, discount_id, session_id, student_id } = req.body;
-    const userCreateData = await feeCollect.create({  
+    const { fee_master_id, discount_id, session_id, student_id } = req.body;
+    const userCreateData = await feeCollect.create({
       fee_master_id,
       discount_id,
       session_id,
@@ -126,30 +126,37 @@ exports.status = async (req, res, next) => {
 };
 
 exports.updatePAyment = async (req, res, next) => {
-  const id = req.body.id;
-  const mode = req.body.mode;
-  const paid = req.body.paid;
-  const data = (await feeCollect.findByPk(id)).toJSON();
-  const totalAmount = (
-    await feeMaster.findOne({ id: data.fee_master_id, attributes: ["amount"] })
-  ).toJSON().amount;
-  if (Number(paid) + Number(data.paid)> Number(totalAmount)) {
-    return res.status(404).send({
-      status: false,
-      message: "Requested amount is higher than which is to be paid",
-    });
+  try {
+    const id = req.body.id;
+    const mode = req.body.mode;
+    const paid = req.body.paid;
+    const data = (await feeCollect.findByPk(id)).toJSON();
+    const totalAmount = (
+      await feeMaster.findOne({
+        id: data.fee_master_id,
+        attributes: ["amount"],
+      })
+    ).toJSON().amount;
+    if (Number(paid) + Number(data.paid) > Number(totalAmount)) {
+      return res.status(404).send({
+        status: false,
+        message: "Requested amount is higher than which is to be paid",
+      });
+    }
+    await feeCollect.update(
+      {
+        paid: Number(data.paid) + Number(paid),
+        balance: Number(data.balance) - Number(paid),
+      },
+      { where: { id } }
+    );
+    if (Number(totalAmount) == Number(paid) + Number(data.paid)) {
+      feeCollect.update({ status: "paid", mode }, { where: { id } });
+    } else {
+      feeCollect.update({ status: "partial", mode }, { where: { id } });
+    }
+    res.send({ data: "true" });
+  } catch (error) {
+    console.log(error);
   }
-  await feeCollect.update(
-    {
-      paid: Number(data.paid) + Number(paid),
-      balance: Number(data.balance) - Number(paid),
-    },
-    { where: { id } }
-  );
-  if (Number(totalAmount) == Number(paid) + Number(data.paid)) {
-    feeCollect.update({ status: "paid", mode }, { where: { id } });
-  } else {
-    feeCollect.update({ status: "partial", mode }, { where: { id } });
-  }
-  res.send({ data: "true" });
 };
