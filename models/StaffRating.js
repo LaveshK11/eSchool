@@ -24,14 +24,15 @@ const StaffRating = sequelize.define("staff_ratings", {
   },
   user_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: "users",
-      key: "id",
-    },
+    // references: {
+    //   model: "users",
+    //   key: "id",
+    // },
   },
   applicatiion_status: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'PENDING'
   },
   student_name: {
     type: DataTypes.STRING,
