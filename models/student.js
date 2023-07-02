@@ -226,47 +226,47 @@ const Student = sequelize.define("student", {
   },
 });
 
-// Student.belongsTo(Class, {
-//   foreignKey: "class_id",
-//   targetKey: "id",
-//   onDelete: null,
-//   constraints: true,
-// });
-// Student.belongsTo(Section, {
-//   foreignKey: "section_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(DisabledReason, {
-//   foreignKey: "disabled_reason_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(Session, {
-//   foreignKey: "session_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(Category, {
-//   foreignKey: "category_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(House, {
-//   foreignKey: "house_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(hostel, {
-//   foreignKey: "hostel_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
-// Student.belongsTo(hostelRoom, {
-//   foreignKey: "hostel_room_id",
-//   targetKey: "id",
-//   onDelete: null,
-// });
+Student.belongsTo(Class, {
+  foreignKey: "class_id",
+  targetKey: "id",
+  onDelete: null,
+  constraints: true,
+});
+Student.belongsTo(Section, {
+  foreignKey: "section_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(DisabledReason, {
+  foreignKey: "disabled_reason_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(Session, {
+  foreignKey: "session_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(Category, {
+  foreignKey: "category_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(House, {
+  foreignKey: "house_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(hostel, {
+  foreignKey: "hostel_id",
+  targetKey: "id",
+  onDelete: null,
+});
+Student.belongsTo(hostelRoom, {
+  foreignKey: "hostel_room_id",
+  targetKey: "id",
+  onDelete: null,
+});
 
 Student.beforeCreate(function (student, options) {
   return (student.fullname = student.firstname + " " + student.lastname);
