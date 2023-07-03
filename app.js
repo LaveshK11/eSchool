@@ -8,8 +8,6 @@ const { sequelize } = require("./connection");
 const app = express();
 const createDirectory = require("./directories");
 const globalErrorHandler = require("./utils/errorHandler");
-console.log("Her");
-
 const admissionEnquiry = require("./routes/admissionEnquiry");
 const visitorBook = require("./routes/visirtorBook");
 const complaint = require("./routes/complaint");
@@ -65,7 +63,7 @@ const staffDesignation = require("./routes/staffDesignation");
 const department = require("./routes/department");
 const staff = require("./routes/staff");
 const staffRole = require("./routes/staffRole");
-const StaffRating = require("./routes/staffRating");
+// const StaffRating = require("./routes/staffRating");
 const staffAttendanceType = require("./routes/staffAttendanceType");
 const staffAttendance = require("./routes/staffAttendance");
 const staffPayroll = require("./routes/staffPayroll");
@@ -185,7 +183,7 @@ app.use(express.urlencoded({ extended: true }));
 sequelize.authenticate().then(() => {
   console.log("connected to db successfully");
 });
-sequelize.sync({ alter:true, logging:false ,force:true}).catch(err => {
+sequelize.sync({ alter:false, logging:false ,force:false}).catch(err => {
   console.log(err)
 })
 
@@ -264,7 +262,7 @@ app.use("/api/v1/department", department);
 app.use("/api/v1/staff", staff);
 app.use("/api/v1/staffRole", staffRole);
 
-app.use("/api/v1/StaffRating", StaffRating);
+// app.use("/api/v1/StaffRating", StaffRating);
 
 app.use("/api/v1/staffPayroll", staffPayroll);
 // app.use('/api/v1/StaffPaySlip', StaffPaySlip)

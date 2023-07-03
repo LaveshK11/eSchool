@@ -56,7 +56,7 @@ const Event = sequelize.define('event',{
 Event.belongsTo(Class,{foreignKey:'class_id',targetKey:'id',onDelete:'CASCADE'})
 Event.belongsTo(Session,{foreignKey:'passout_session_id',targetKey:'id',onDelete:'CASCADE'})
 
-// Event.sync({alter:true})
+// Event({alter:true})
 
 
 const manageAlumni = sequelize.define('manage_alumni',{
@@ -89,6 +89,6 @@ const manageAlumni = sequelize.define('manage_alumni',{
 manageAlumni.belongsTo(Student,{foreignKey:'student_id','targetKey':'id',onDelete:null})
 // manageAlumni.hasMany(Student)
 // Student.hasOne(manageAlumni)
-// manageAlumni.sync({alter:true})
+// manageAlumni({alter:true})
 
 module.exports = {Event,manageAlumni}

@@ -23,6 +23,10 @@ const FeeGroup = sequelize.define('fee_group',{
   is_active:{
     type:DataTypes.ENUM('yes','no'),
     defaultValue:'yes'
+  },
+  class:{
+    type:DataTypes.STRING,
+    required:true,
   }
 
 })
