@@ -114,7 +114,7 @@ const feeDiscount = require("./routes/feeDiscount");
 const feeMaster = require("./routes/feeMaster");
 const feeReminder = require("./routes/feeReminder");
 const feeCollect = require("./routes/feeCollect");
-const feCarryForward = require("./routes/feeCarryForward");
+const feeCarryForward = require("./routes/feeCarryForward");
 
 //downloads center
 const contentType = require("./routes/contentType");
@@ -318,7 +318,7 @@ app.use("/api/v1/feeDiscount", feeDiscount);
 app.use("/api/v1/feeMaster", feeMaster);
 app.use("/api/v1/feeReminder", feeReminder);
 app.use("/api/v1/feeCollect", feeCollect);
-app.use("/api/v1/feeCarryForward", feCarryForward);
+app.use("/api/v1/feeCarryForward", feeCarryForward);
 
 
 //content type

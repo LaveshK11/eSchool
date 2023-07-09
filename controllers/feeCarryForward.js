@@ -9,35 +9,38 @@ exports.carryFee = async (req, res) => {
     const class_ = req.body.class;
     const balance = req.body.balance;
     var PreviousDate = new Date(year, 1, 1);
-    console.log(class_);
 
-    const feeGroupData = (await FeeGroup.findOrCreate(
-      {
-        where: { name: "Previous Year due", class: class_ },
-        defaults: {
-            name: "Previous Year due", class: class_,
-          description: `Added dues for year ${Number(year - 1)} ${Number(
-            year
-          )}`,
-        },
-      }
-    )).toJSOn();
-
+    const feeGroupData = await FeeGroup.findOrCreate({
+      where: {
+        name: "Previous Year due",
+        class: class_,
+        description: `Added dues for year ${Number(year - 1)} - ${Number(
+          year
+        )}`,
+      },
+      defaults: {
+        name: "Previous Year due",
+        class: class_,
+        description: `Added dues for year ${Number(year - 1)} - ${Number(
+          year
+        )}`,
+      },raw:true
+    });
     const feeMasterData = await feeMaster.create(
       {
         amount: Number(balance),
         description: "Previous dues created",
         due_date: PreviousDate,
-        fee_group_id: feeGroupData.id,
+        fee_group_id: feeGroupData[0].id,
         fee_type_id: 1,
         class_id: 23,
         session_id: 1,
       },
       { raw: true }
     );
+    console.log(feeMasterData['dataValues'],feeMasterData['dataValues']['id']);
     const feeCollectData = await feeCollect.create({
-      balance: balance,
-      fee_master_id: feeMasterData.id,
+      fee_master_id: Number(feeMasterData['dataValues']['id']),
       discount_id: 1,
       session_id: 1,
       student_id: student_id,
