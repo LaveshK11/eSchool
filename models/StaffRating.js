@@ -2,7 +2,7 @@ const { sequelize, DataTypes } = require("../connection");
 const Staff = require("./Staff");
 const users = require("./User");
 
-const StaffRating = sequelize.define("staff_rating", {
+const StaffRating = sequelize.define("staff_ratings", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -18,10 +18,17 @@ const StaffRating = sequelize.define("staff_rating", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-
+  user_id: {
+    type: DataTypes.INTEGER,
+    // references: {
+    //   model: "users",
+    //   key: "id",
+    // },
+  },
   applicatiion_status: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'PENDING'
   },
   student_name: {
     type: DataTypes.STRING,

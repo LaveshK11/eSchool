@@ -31,4 +31,6 @@ exports.createNotice = async (req, res, next) => {
 };
 exports.getallNotice = Api.getAll(noticeBoard);
 
+exports.updateNotice = Api.update(noticeBoard);
+
 exports.deleteNotice = Api.delete(noticeBoard);

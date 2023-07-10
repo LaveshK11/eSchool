@@ -27,10 +27,9 @@ const smtpClient = async (options) => {
   });
   transporter.sendMail(info, (error, response) => {
     if (error) {
-      console.log(error)
+      console.log(error);
     } else {
-      console.log("Mail sent successfully to ",options.email)
-  
+      console.log("Mail sent successfully to ", options.email);
     }
   });
 };
