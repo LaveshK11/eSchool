@@ -59,7 +59,6 @@ exports.collectStudentFee = async (req, res) => {
       ],
     });
     const dataDeliver = fees_data.reduce((acc, feesData) => {
-      console.log(fee)
       acc = [
         ...acc,
         {
@@ -77,7 +76,7 @@ exports.collectStudentFee = async (req, res) => {
       ];
       return acc;
     }, []);
-
+    console.log(dataDeliver);
     res.status(200).send({ data: dataDeliver });
   } catch (err) {
     console.log(err.message);
@@ -91,8 +90,8 @@ exports.collectStudentFee = async (req, res) => {
 exports.status = async (req, res, next) => {
   const payment_id = req.params.payment_id;
   const feesStatusData = await feeCollect.findOne({
-    payment_id,
-    attributes: ["mode", "fine", "payment_id", "updatedAt"],
+    where: { payment_id },
+    attributes: ["mode", "fine", "payment_id", "updatedAt", "status"],
     include: [
       {
         model: feeMaster,
@@ -106,7 +105,25 @@ exports.status = async (req, res, next) => {
       },
     ],
   });
-  res.send({ data: feesStatusData });
+
+  if (feesStatusData) {
+    const dataDeliver = {
+      mode: feesStatusData.mode,
+      status: feesStatusData.status,
+      payment_id: feesStatusData.payment_id,
+      amount: feesStatusData.fee_master.amount,
+      due_date: feesStatusData.fee_master.due_date,
+      fine_amount: feesStatusData.fee_master.fine_amount,
+      fine_type: feesStatusData.fee_master.fine_type,
+      name: feesStatusData.fee_master.fee_group.name,
+      description: feesStatusData.fee_master.fee_group.description,
+    };
+    let data = [];
+    data.push(dataDeliver);
+    res.send({ data: data });
+  } else {
+    res.send({ data: [] });
+  }
 };
 
 exports.updatePAyment = (req, res, next) => {

@@ -1,6 +1,6 @@
 const {sequelize,DataTypes} = require('../connection')
 
-const HouseName = sequelize.define('student_house',{
+const HouseName = sequelize.define('student_houses',{
 
   id:{
     type:DataTypes.INTEGER,
@@ -18,5 +18,5 @@ const HouseName = sequelize.define('student_house',{
   }
 
 })
-// HouseName.sync({alter:true,logging:false})
+HouseName.sync({alter:true,logging:false})
 module.exports = HouseName

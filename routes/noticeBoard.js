@@ -13,5 +13,5 @@ router.get("/", NoticeBoard.getallNotice);
  */
 router.post("/create", NoticeBoard.createNotice);
 router.delete("/delete/:id", NoticeBoard.deleteNotice);
-router.patch("/update/id", NoticeBoard.updateNotice);
+router.patch("/update/:id", NoticeBoard.updateNotice);
 module.exports = router;

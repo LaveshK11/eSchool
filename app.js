@@ -175,7 +175,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-const alter = false;
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
@@ -184,9 +183,9 @@ app.use(express.urlencoded({ extended: true }));
 sequelize.authenticate().then(() => {
   console.log("connected to db successfully");
 });
-sequelize.sync({ alter, logging:false}).catch(err => {
-  console.log(err)
-})
+sequelize.sync({ alter: true, logging: false }).catch((err) => {
+  console.log(err);
+});
 
 createDirectory();
 

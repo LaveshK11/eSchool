@@ -1,35 +1,35 @@
-const {sequelize,DataTypes} = require('../connection')
+const { sequelize, DataTypes } = require("../connection");
 
 const User = sequelize.define("user", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    validate:{
-      isEmail:true
-    }
+    validate: {
+      isEmail: true,
+    },
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   original_password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   status: {
     type: DataTypes.STRING,
-    defaultValue: 'active'
+    defaultValue: "active",
   },
   role: {
     type: DataTypes.STRING,
@@ -37,17 +37,14 @@ const User = sequelize.define("user", {
   },
   date_of_birth: {
     type: DataTypes.DATEONLY,
-    allowNull: false
+    allowNull: false,
   },
-  user_id:{
-    type:DataTypes.INTEGER
+  user_id: {
+    type: DataTypes.INTEGER,
   },
-  student_id:{
-    type:DataTypes.STRING
-  }
+  student_id: {
+    type: DataTypes.STRING,
+  },
+});
 
-})
-
-
-User.sync({alter:true})
-module.exports = User
+module.exports = User;
