@@ -41,6 +41,7 @@ exports.deleteCategory = async(req,res)=>{
       message:'Category deleted successfully!'
     })
   } catch (err) {
+    console.log(err)
     res.status(400).json({
       stauts:"fail",
       message:err.message

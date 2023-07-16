@@ -39,11 +39,13 @@ exports.getAllExamGroups = async (req, res, next) => {
       },
     });
 
+    console.log(data);
     res.status(200).json({
       status: "success",
       data,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

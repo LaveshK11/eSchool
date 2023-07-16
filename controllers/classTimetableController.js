@@ -136,6 +136,7 @@ exports.getTeacherTimetable = async (req, res) => {
       data: results,
     });
   } catch (err) {
+    console.log(err)
     res.status(400).json({
       status: "fail",
       message: err.message,

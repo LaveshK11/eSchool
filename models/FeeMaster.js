@@ -63,6 +63,6 @@ FeeMaster.belongsTo(Session, {
   onDelete: null,
 });
 
-// FeeMaster.sync({alter:true})
+FeeMaster.sync({alter:true})
 
 module.exports = FeeMaster;

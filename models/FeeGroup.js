@@ -21,7 +21,7 @@ const FeeGroup = sequelize.define("fee_group", {
   },
   is_active: {
     type: DataTypes.ENUM("yes", "no"),
-  defaultValue: "yes",
+    defaultValue: "yes",
   },
   class: {
     type: DataTypes.STRING,
@@ -29,5 +29,5 @@ const FeeGroup = sequelize.define("fee_group", {
   },
 });
 
-FeeGroup.sync({alter:true})
+FeeGroup.sync({ alter: true });
 module.exports = FeeGroup;

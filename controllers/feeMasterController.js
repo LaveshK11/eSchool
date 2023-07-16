@@ -20,44 +20,51 @@ exports.getAllFeeMaster = async (req, res, next) => {
     let results = [];
 
     for (const id of feeMasters) {
-      let obj = {};
-      let fee_codes = [];
+      try {
+        if (!id.fee_grp_id) {
+          continue;
+        }
+        let obj = {};
+        let fee_codes = [];
 
-      let feeMaster = await FeeMaster.findAll({
-        where: {
-          fee_group_id: id.getDataValue("fee_grp_id"),
-        },
-        include: [
-          {
-            model: FeeGroup,
-            attributes: ["name"],
+        let feeMaster = await FeeMaster.findAll({
+          where: {
+            fee_group_id: Number(id.fee_grp_id),
           },
-          {
-            model: FeeType,
-            attributes: ["id", "type"],
-          },
-          {
-            model: Session,
-            attributes: ["session"],
-          },
-        ],
-      });
-
-      obj.id = feeMaster[0].getDataValue("id");
-      obj.fee_group = feeMaster[0].getDataValue("fee_group").name;
-      if (feeMaster[0].getDataValue("session") != null)
-        obj.session = feeMaster[0].getDataValue("session").session || null;
-      feeMaster.forEach((fee_master) => {
-        fee_codes.push({
-          id: fee_master.getDataValue("fee_type").id,
-          code:
-            fee_master.getDataValue("fee_type").type +
-            ` $${fee_master.getDataValue("amount")}`,
+          include: [
+            {
+              model: FeeGroup,
+              attributes: ["name"],
+            },
+            {
+              model: FeeType,
+              attributes: ["id", "type"],
+            },
+            {
+              model: Session,
+              attributes: ["session"],
+            },
+          ],
+          raw: true,
+          nest: true,
         });
-      });
 
-      obj.fee_code = fee_codes;
-      results.push(obj);
+        obj.id = feeMaster[0]["id"];
+        obj.fee_group = feeMaster[0]["fee_group"].name;
+        if (feeMaster[0]["session"] != null)
+          obj.session = feeMaster[0]["session"].session || null;
+        feeMaster.forEach((fee_master) => {
+          fee_codes.push({
+            id: fee_master["fee_type"].id,
+            code: fee_master["fee_type"].type + ` $${fee_master["amount"]}`,
+          });
+        });
+
+        obj.fee_code = fee_codes;
+        results.push(obj);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     res.status(200).json({
@@ -65,6 +72,7 @@ exports.getAllFeeMaster = async (req, res, next) => {
       data: results,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

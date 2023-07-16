@@ -22,5 +22,4 @@ subjectGroups.belongsTo(Class, {
   onDelete: "CASCADE",
 });
 
-
 module.exports = subjectGroups;

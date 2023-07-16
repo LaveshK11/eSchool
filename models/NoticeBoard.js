@@ -14,59 +14,57 @@ const noticeBoard = sequelize.define("notice_board", {
   message: {
     type: DataTypes.STRING,
     allowNull: true,
-
   },
   attachment: {
     type: DataTypes.STRING,
     allowNull: true,
-
   },
   issue_date: {
     type: DataTypes.DATE,
     allowNull: false,
-
   },
   Parent: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
-
+    defaultValue: null,
   },
   student: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Accountant: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Librarian: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Admin: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Receptionist: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Teacher: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
   Super_admin: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
-    defaultValue: null
+    defaultValue: null,
   },
 });
+
+noticeBoard.sync({ alter: true });
 
 module.exports = noticeBoard;

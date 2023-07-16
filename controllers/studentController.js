@@ -270,8 +270,8 @@ exports.updateStudent = async (req, res, next) => {
 
 exports.deleteStudent = async (req, res, next) => {
   try {
-    await Student.destroy({ where: { id: req.params.id } });
-
+    let data = await Student.destroy({ where: { id: req.params.id } });
+    console.log(data);
     res.status(200).json({
       status: "success",
       message: "student deleted successfully!",
@@ -383,12 +383,11 @@ exports.promoteStudents = async (req, res, next) => {
 
 /**
  * @param @requires class_id  section_id
- * @description for getting students details with class_id and section_id
+ * @descxription for getting students details with class_id and section_id
  * @access public
  */
 exports.getStuBySpecification = async (req, res, next) => {
   try {
-    console.log(req.query.class_id, req.query.section_id);
     let student = await Student.findAll({
       where: {
         class_id: req.query.class_id,

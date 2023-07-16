@@ -58,7 +58,9 @@ exports.collectStudentFee = async (req, res) => {
         },
       ],
     });
+
     const dataDeliver = fees_data.reduce((acc, feesData) => {
+      console.log(feesData.fee_master)
       acc = [
         ...acc,
         {
@@ -70,16 +72,16 @@ exports.collectStudentFee = async (req, res) => {
           amount: feesData.fee_master.amount,
           due_date: feesData.fee_master.due_date,
           fine_amount: feesData.fee_master.fine_amount,
+          
           name: feesData.fee_master.fee_group.name,
           description: feesData.fee_master.fee_group.description,
         },
       ];
       return acc;
     }, []);
-    console.log(dataDeliver);
     res.status(200).send({ data: dataDeliver });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     res.status(400).json({
       status: "fail",
       message: err.message,
@@ -126,7 +128,44 @@ exports.status = async (req, res, next) => {
   }
 };
 
-exports.updatePAyment = (req, res, next) => {
-  const id = req.body.id;
-  const mode = req.body.mode;
+exports.updatePAyment = async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const mode = req.body.mode;
+    const paid = req.body.paid;
+    const data = await feeCollect.findByPk(id);
+    const totalAmount = (
+      await feeMaster.findOne({
+        where: { id: data.fee_master_id },
+        attributes: ["amount"],
+      })
+    ).amount;
+    if (Number(paid) + Number(data.paid) > Number(totalAmount)) {
+      return res.status(404).send({
+        status: false,
+        message: "Requested amount is higher than which is to be paid",
+      });
+    }
+    await feeCollect.update(
+      {
+        paid: Number(data.paid) + Number(paid),
+        balance: Number(data.balance) - Number(paid),
+      },
+      { where: { id } }
+    );
+    if (Number(totalAmount) == Number(paid) + Number(data.paid)) {
+      let val = await feeCollect.update(
+        { status: "paid", mode },
+        { where: { id } }
+      );
+    } else {
+      let r = await feeCollect.update(
+        { status: "partial", mode },
+        { where: { id } }
+      );
+    }
+    res.send({ data: true, message: "successfully added" });
+  } catch (error) {
+    console.log(error);
+  }
 };

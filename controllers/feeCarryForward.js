@@ -3,13 +3,13 @@ const FeeGroup = require("../models/FeeGroup");
 const feeMaster = require("../models/FeeMaster");
 
 exports.carryFee = async (req, res) => {
+  console.log(req.body);
   try {
     const year = new Date().getFullYear();
     const student_id = req.body.id;
     const class_ = req.body.class;
     const balance = req.body.balance;
     var PreviousDate = new Date(year, 1, 1);
-    console.log(class_);
 
     const feeGroupData = await FeeGroup.findOrCreate({
       where: { name: "Previous Year due", class: class_ },
@@ -31,13 +31,13 @@ exports.carryFee = async (req, res) => {
       },
       { raw: true }
     );
-    const feeCollectData = await feeCollect.create({
+    let show = await feeCollect.create({
       balance: balance,
       fee_master_id: feeMasterData.id,
-      discount_id: 1,
       session_id: 1,
       student_id: student_id,
     });
+    console.log(show);
     return res
       .status(200)
       .send({ status: "success", message: "Student fee added successfully " });
