@@ -48,7 +48,6 @@ feeCollect.belongsTo(Session, { foreignKey: "session_id", targetKey: "id" });
 feeCollect.belongsTo(Student, { foreignKey: "student_id", targetKey: "id" });
 feeCollect.sync({ alter: true });
 
-<<<<<<< HEAD
 feeCollect.belongsTo(feeMaster, {
   foreignKey: "fee_master_id",
   targetKey: "id",
@@ -61,6 +60,3 @@ feeCollect.belongsTo(Session, { foreignKey: "session_id", targetKey: "id" });
 feeCollect.belongsTo(Student, { foreignKey: "student_id", targetKey: "id" });
 
 module.exports = feeCollect;
-=======
-module.exports = feeCollect;
->>>>>>> master
