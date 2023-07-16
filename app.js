@@ -8,8 +8,6 @@ const { sequelize } = require("./connection");
 const app = express();
 const createDirectory = require("./directories");
 const globalErrorHandler = require("./utils/errorHandler");
-console.log("Her");
-
 const admissionEnquiry = require("./routes/admissionEnquiry");
 const visitorBook = require("./routes/visirtorBook");
 const complaint = require("./routes/complaint");
@@ -65,7 +63,7 @@ const staffDesignation = require("./routes/staffDesignation");
 const department = require("./routes/department");
 const staff = require("./routes/staff");
 const staffRole = require("./routes/staffRole");
-const StaffRating = require("./routes/staffRating");
+// const StaffRating = require("./routes/staffRating");
 const staffAttendanceType = require("./routes/staffAttendanceType");
 const staffAttendance = require("./routes/staffAttendance");
 const staffPayroll = require("./routes/staffPayroll");
@@ -116,6 +114,8 @@ const feeDiscount = require("./routes/feeDiscount");
 const feeMaster = require("./routes/feeMaster");
 const feeReminder = require("./routes/feeReminder");
 const feeCollect = require("./routes/feeCollect");
+const feeCarryForward = require("./routes/feeCarryForward");
+
 //downloads center
 const contentType = require("./routes/contentType");
 const downloadContent = require("./routes/downloadContent");
@@ -185,9 +185,9 @@ app.use(express.urlencoded({ extended: true }));
 sequelize.authenticate().then(() => {
   console.log("connected to db successfully");
 });
-// sequelize.sync({ alter:true, logging:false ,force:false}).catch(err => {
-//   console.log(err)
-// })
+sequelize.sync({ alter:false, logging:false ,force:false}).catch(err => {
+  console.log(err)
+})
 
 createDirectory();
 
@@ -264,7 +264,7 @@ app.use("/api/v1/department", department);
 app.use("/api/v1/staff", staff);
 app.use("/api/v1/staffRole", staffRole);
 
-app.use("/api/v1/StaffRating", StaffRating);
+// app.use("/api/v1/StaffRating", StaffRating);
 
 app.use("/api/v1/staffPayroll", staffPayroll);
 // app.use('/api/v1/StaffPaySlip', StaffPaySlip)
@@ -318,6 +318,8 @@ app.use("/api/v1/feeDiscount", feeDiscount);
 app.use("/api/v1/feeMaster", feeMaster);
 app.use("/api/v1/feeReminder", feeReminder);
 app.use("/api/v1/feeCollect", feeCollect);
+app.use("/api/v1/feeCarryForward", feeCarryForward);
+
 
 //content type
 app.use("/api/v1/contentType", contentType);

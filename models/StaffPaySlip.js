@@ -5,7 +5,7 @@ const StaffPaySlip = sequelize.define('staff_payslip',{
   id:{
     type:DataTypes.INTEGER,
     autoIncrement:true,
-    allowNull:false,
+    allowNull:true,
     primaryKey:true
   },
   staff_id:{

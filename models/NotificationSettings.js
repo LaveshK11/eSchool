@@ -1,11 +1,5 @@
 const {sequelize,DataTypes} = require('../connection')
 
-let data = [
-
-  
-
-]
-
 const NotificationSetting = sequelize.define('notification_setting',{
 
     id:{
